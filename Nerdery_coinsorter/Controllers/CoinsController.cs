@@ -41,7 +41,7 @@ namespace Nerdery_coinsorter.Controllers
             }
             // return Ok(new string('-', 28));
             Console.WriteLine(new string('-', 28));
-            return Ok(amt_remaining);
+            return Ok(200);
         }
     }
 }
