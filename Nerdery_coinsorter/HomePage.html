@@ -38,12 +38,12 @@
 
     function Compute() {
       var id = $('#totalamount').val();
-      $.getJSON(uri + '/' + id)
+      $.getJSON(uri + '/' + totalamount)
           .done(function (data) {
-            $('#amt_remaining').text(formatItem(data));
+            $('#coins').text(formatItem(data));
           })
           .fail(function (jqXHR, textStatus, err) {
-            $('#amt_remaining').text('Error: ' + err);
+            $('#coins').text('Error: ' + err);
           });
     }
     </script>
