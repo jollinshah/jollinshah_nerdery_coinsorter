@@ -10,42 +10,61 @@
         <ul id="coins" />
     </div>
     <div>
-        <h2>Find the best combination</h2>
-        <input type="text" id="totalamount" size="5" />
-        <input type="button" value="Compute" onclick="compute();" />
-        <p id="coin" />
+        <h2>Output: </h2>
+        <div id="displayoutput"></div>
+        <div>
+            <h2>Note on output:</h2> Output is displayed in the same order when compared to All Coins. For e.g If output is {4,3,0,0,0,1} it means there were [4=>silver-dollars,3=>half dollars,etc]
+        </div>
     </div>
-
+    <script src="https://raw.githubusercontent.com/openexchangerates/accounting.js/master/accounting.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
-    var uri = 'api/coins';
+        var uri = 'api/coins';
+        /*********************INPUT AMOUNT TO CALCULATE HERE********************************/
+        var inputamount = 125.86;
+        /***********************************************************************************/
 
-    $(document).ready(function () {
-      // Send an AJAX request
-      $.getJSON(uri)
-          .done(function (data) {
-            // On success, 'data' contains a list of coins.
-            $.each(data, function (key, item) {
-              // Add a list item for the coins.
-              $('<li>', { text: formatItem(item) }).appendTo($('#coins'));
-            });
-          });
-    });
+        var possiblecoins = [1.00, 0.50, 0.25, 0.10, 0.05,0.01];
+        $(document).ready(function () {
+            $.getJSON(uri)
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+                        $('<li>', { text: display(item) }).appendTo($('#coins'));
+                    });
+                });
+        });
 
-    function formatItem(item) {
-      return item.CoinType + ': $' + item.CoinValue;
-    }
+        function display(item) {
+            return item.CoinType + ': $' + item.CoinValue;
+        }
 
-    function Compute() {
-      var id = $('#totalamount').val();
-      $.getJSON(uri + '/' + totalamount)
-          .done(function (data) {
-            $('#coins').text(formatItem(data));
-          })
-          .fail(function (jqXHR, textStatus, err) {
-            $('#coins').text('Error: ' + err);
-          });
-    }
+        function calculate(coins, amt) {
+            var x = 0;
+            var count = coins.map(function () { return 0; });
+            while (x < coins.length) {
+                while (coins[x] <= amt) {
+                    amt -= coins[x];
+                    count[x]++;
+                }
+                x++;
+            }
+            return count;
+        }
+        Compute(JSON.stringify(calculate(possiblecoins,inputamount) , null, 6), true);
+
+        function Compute(input, bvalue) {
+            var desc = document.createElement('div');
+            if (bvalue) {
+                var Node = document.createElement('pre');
+                Node.innerHTML = '$' + inputamount + '==>' + input + '<br>';
+                desc.appendChild(Node);
+            }
+            else {
+                desc.innerHTML = s + '<br>';
+            }
+            document.getElementById('displayoutput').appendChild(desc);
+
+        }
     </script>
 </body>
 </html>
