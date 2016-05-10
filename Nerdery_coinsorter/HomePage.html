@@ -16,12 +16,12 @@
             <h2>Note on output:</h2> Output is displayed in the same order when compared to All Coins. For e.g If output is {4,3,0,0,0,1} it means there were [4=>silver-dollars,3=>half dollars,etc]
         </div>
     </div>
-    <script src="https://raw.githubusercontent.com/openexchangerates/accounting.js/master/accounting.js"></script>
+    <script src="https://raw.githubusercontent.com/MikeMcl/big.js/master/big.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
         var uri = 'api/coins';
         /*********************INPUT AMOUNT TO CALCULATE HERE********************************/
-        var inputamount = 125.56;
+        var inputamount = 12.97;
         /***********************************************************************************/
 
         var possiblecoins = [1.00, 0.50, 0.25, 0.10, 0.05,0.01];
@@ -39,11 +39,11 @@
         }
 
         function calculate(coins, amt) {
-            var x = 0;
+            var x = 0.00;
             var count = coins.map(function () { return 0; });
             while (x < coins.length) {
                 while (coins[x] <= amt) {
-                    amt -= coins[x];
+                  amt -= coins[x];
                     count[x]++;
                 }
                 x++;
